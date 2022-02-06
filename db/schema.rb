@@ -10,11 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_05_220840) do
+ActiveRecord::Schema.define(version: 2022_02_06_085911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "user_followers", primary_key: ["user_id", "follower_id"], force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "follower_id", null: false
+    t.date "followed_at", default: -> { "now()" }, null: false
+  end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "full_name", limit: 71, null: false
@@ -28,4 +34,6 @@ ActiveRecord::Schema.define(version: 2022_02_05_220840) do
     t.index ["nickname"], name: "unique_nicknames", unique: true
   end
 
+  add_foreign_key "user_followers", "users"
+  add_foreign_key "user_followers", "users", column: "follower_id"
 end
