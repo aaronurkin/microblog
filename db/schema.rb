@@ -10,11 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_06_085911) do
+ActiveRecord::Schema.define(version: 2022_02_06_112256) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "posts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "content", limit: 140, null: false
+    t.uuid "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
 
   create_table "user_followers", primary_key: ["user_id", "follower_id"], force: :cascade do |t|
     t.uuid "user_id", null: false
@@ -34,6 +42,7 @@ ActiveRecord::Schema.define(version: 2022_02_06_085911) do
     t.index ["nickname"], name: "unique_nicknames", unique: true
   end
 
+  add_foreign_key "posts", "users"
   add_foreign_key "user_followers", "users"
   add_foreign_key "user_followers", "users", column: "follower_id"
 end
