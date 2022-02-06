@@ -1,0 +1,51 @@
+<!-- Main Content-->
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="my-5">
+                    <h1>Sign in</h1>
+                    <h2>and share your thoughts</h2>
+                    <p>Don't have an account yet? Please <%= link_to "sign up", signup_path %></p>
+                    <% if notice %>
+                        <div class="d-none" id="submitSuccessMessage">
+                            <div class="text-center mb-3">
+                                <div class="fw-bolder">
+                                    <%= notice %>
+                                </div>
+                            </div>
+                        </div>
+                    <% end %>
+                    <%= form_with url: authenticate_path, method: :post do |form| %>
+                        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                        <% if @user.errors.any? %>
+                            <div style="color: red">
+                                <h2><%= pluralize(@user.errors.count, "error") %> prohibited you from sing in:</h2>
+                        
+                                <ul>
+                                    <% @user.errors.each do |error| %>
+                                        <li>
+                                            <div class="text-center text-danger mb-3">
+                                                <%= error.full_message %>
+                                            </div>
+                                        </li>
+                                    <% end %>
+                                </ul>
+                            </div>
+                        <% end %>
+                        <div class="form-floating">
+                            <%= form.text_field :email, placeholder: :email, :class => "form-control", :type => "email", :data => { :sb_validations => "required,email" } %>
+                            <%= form.label :email %>
+                        </div>
+                        <div class="form-floating">
+                            <%= form.password_field :password, placeholder: :password, :class => "form-control", :data => { :sb_validations => "required" } %>
+                            <%= form.label :password %>
+                        </div>
+                        <br />
+                        <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Sign in</button>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
