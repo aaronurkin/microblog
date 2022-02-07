@@ -36,11 +36,9 @@
                   <%= current_user.full_name %>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="user-actions">
-                  <!--
                   <li>
-                    <a class="dropdown-item" href="#">User Profile</a>
+                    <%= link_to "Edit Profile", edit_user_path(current_user), class: "dropdown-item" %>
                   </li>
-                  -->
                   <li>
                     <%= button_to "Signout", signout_path, { id: "logout-button", class: "dropdown-item btn-logout" } %>
                   </li>

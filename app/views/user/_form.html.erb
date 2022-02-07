@@ -1,0 +1,24 @@
+<%= form_with(model: @user, url: update_user_path, method: :post) do |form| %>
+    <% if @user.errors.any? %>
+        <div style="color: red">
+            <h2><%= pluralize(@user.errors.count, "error") %> prohibited you from sing in:</h2>
+    
+            <ul>
+                <% @user.errors.each do |error| %>
+                    <li>
+                        <div class="text-center text-danger mb-3">
+                            <%= error.full_message %>
+                        </div>
+                    </li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <div class="form-floating">
+        <%= form.text_field :full_name, placeholder: :full_name, :class => "form-control", :data => { :sb_validations => "required" } %>
+        <%= form.label :full_name %>
+    </div>
+    <br />
+    <button class="btn btn-primary text-uppercase" type="submit">Save changes</button>
+<% end %>
