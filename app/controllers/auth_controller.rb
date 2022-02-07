@@ -62,4 +62,12 @@ class AuthController < ApplicationController
     session[:user_id] = nil
     redirect_back fallback_location: root_path
   end
+
+  def change_password
+    @user = User.new
+  end
+
+  def update_password
+    #TODO: implement
+  end
 end
