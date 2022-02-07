@@ -28,7 +28,7 @@ class AuthController < ApplicationController
       @user = User.new
 
       respond_to do |format|
-        format.html { redirect_to signup_path, status: :bad_request, notice: "Please specify your email" }
+        format.html { redirect_to signin_path, status: :bad_request, notice: "Please specify your email" }
         format.json { render json: { notice: "Please specify your email" }, status: :bad_request }
       end
     else
