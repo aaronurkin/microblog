@@ -24,24 +24,38 @@ class AuthController < ApplicationController
   end
 
   def authenticate
-    if params["email"]
+    if !params["email"]
+      @user = User.new
+
+      respond_to do |format|
+        format.html { redirect_to signup_path, status: :bad_request, notice: "Please specify your email" }
+        format.json { render json: { notice: "Please specify your email" }, status: :bad_request }
+      end
+    else
       user = User.find_by_email(params["email"])
-        if user
-          @user = user.authenticate(params["password"])
+
+      if !user
+        @user = User.new
+  
+        respond_to do |format|
+          format.html { redirect_to signup_path, status: :not_found, notice: "User not found" }
+          format.json { redirect_to signup_path, status: :not_found }
+        end
+      else
+        @user = user.authenticate(params["password"])
+
+        respond_to do |format|
+          if @user
+            session[:user_id] = user.id
+            format.html { redirect_to root_path, notice: "User was successfully signed in." }
+            format.json { render json: @user, status: :ok }
+          else
+            format.html { redirect_to signin_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end
         end
       end
-
-    respond_to do |format|
-      if @user
-        session[:user_id] = user.id
-        format.html { redirect_to root_path, notice: "User was successfully signed in." }
-        format.json { render json: @user, status: :ok }
-      else
-        format.html { redirect_to signin_path, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
     end
-
   end
 
   def signout
