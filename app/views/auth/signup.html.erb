@@ -6,23 +6,15 @@
                 <div class="my-5">
                     <h1>Sign up</h1>
                     <h2>and share your thoughts</h2>
-                    <% if notice %>
-                        <div class="d-none" id="submitSuccessMessage">
-                            <div class="text-center mb-3">
-                                <div class="fw-bolder">
-                                    <%= notice %>
-                                </div>
-                            </div>
-                        </div>
-                    <% end %>
                     <p>Already have an account? Please <%= link_to "sign in", signin_path %></p>
                     <%= form_with(model: @user, url: register_path, method: :post) do |form| %>
-                        <% if @user.errors.any? %>
-                            <div style="color: red">
-                                <h2><%= pluralize(@user.errors.count, "error") %> prohibited you from sing in:</h2>
-                        
+                        <% if form.object.errors.any? %>
+                            <div class="alert alert-danger" role="alert">
+                                <h4 class="alert-heading">
+                                    <%= pluralize(form.object.errors.count, "error") %> prohibited you from change password:
+                                </h4>
                                 <ul>
-                                    <% @user.errors.each do |error| %>
+                                    <% form.object.errors.each do |error| %>
                                         <li>
                                             <div class="text-center text-danger mb-3">
                                                 <%= error.full_message %>
