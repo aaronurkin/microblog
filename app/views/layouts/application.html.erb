@@ -40,7 +40,7 @@
                     <%= link_to "Manage Profile", edit_user_path(current_user), class: "dropdown-item" %>
                   </li>
                   <li>
-                    <%= link_to "Change Password", change_password_path(current_user), class: "dropdown-item" %>
+                    <%= link_to "Change Password", change_password_path, class: "dropdown-item" %>
                   </li>
                   <li>
                     <%= button_to "Signout", signout_path, { id: "logout-button", class: "dropdown-item btn-logout" } %>

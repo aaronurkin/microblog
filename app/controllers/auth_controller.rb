@@ -64,10 +64,19 @@ class AuthController < ApplicationController
   end
 
   def change_password
-    @user = User.new
+    @user = current_user
   end
 
   def update_password
-    #TODO: implement
+    @user = current_user.update(params.require(:user).permit(:password, :password_confirmation))
+    respond_to do |format|
+      if @user
+        format.html { redirect_to user_path(@user), notice: "Password was successfully updated." }
+        format.json { render json: @user, status: :ok }
+      else
+        format.html { redirect_to signin_path, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 end

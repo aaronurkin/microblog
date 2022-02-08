@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   post  'signout'             ,to:  'auth#signout'
 
   get   'change-password'     ,to:  'auth#change_password'
-  post  'update-password'     ,to:  'auth#update_password'
+  patch 'update-password'     ,to:  'auth#update_password'
 
 # User
   get     'users/:id'         ,to:  'user#show'         ,as: :user
